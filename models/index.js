@@ -14,6 +14,10 @@ const sequelize = new Sequelize(database, username, password, {
   dialect
 });
 
+sequelize.authenticate()
+  .then(() => console.log('Successfully connected to database'))
+  .catch((err) => console.log(`Unable to connect to the database: ${err}`));
+
 const Tutorial = tutorial(sequelize, Sequelize);
 const Comment = comment(sequelize, Sequelize);
 
@@ -26,7 +30,9 @@ Comment.belongsTo(Tutorial, {
   foreignKey: 'tutorialId'
 });
 
-sequelize.authenticate()
-  .then(() => console.log('Successfully connected to database'))
-  .catch((err) => console.log(`Unable to connect to the database: ${err}`));
-
+module.exports = {
+  Tutorial,
+  Comment,
+  sequelize,
+  Sequelize
+};
