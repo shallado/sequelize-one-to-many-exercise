@@ -1,4 +1,6 @@
 const Sequelize = require('sequelize');
+const comment = require('./comment');
+const tutorial = require('./tutorial');
 const {
   database,
   username,
@@ -10,6 +12,18 @@ const {
 const sequelize = new Sequelize(database, username, password, {
   host,
   dialect
+});
+
+const Tutorial = tutorial(sequelize, Sequelize);
+const Comment = comment(sequelize, Sequelize);
+
+Tutorial.hasMany(Comment, {
+  as: 'comments'
+});
+
+Comment.belongsTo(Tutorial, {
+  as: 'tutorial',
+  foreignKey: 'tutorialId'
 });
 
 sequelize.authenticate()
