@@ -20,3 +20,15 @@ exports.findTutorial = (tutorialId) => {
     })
     .catch((err) => console.log(err));
 };
+
+exports.findManyTutorials = () => {
+  return Tutorial.findAll({ include: ['comments'] })
+    .then((tutorials) => {
+      if (tutorials.length === 0) {
+        console.log('No tutorials found')
+      }
+
+      return console.log(JSON.stringify(tutorials, null, 2));
+    })
+    .catch((err) => console.log(err));
+};
